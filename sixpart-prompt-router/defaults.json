@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "audience_default": "busy professionals",
+  "time_horizon_default": "90 days",
+  "weekly_time_default": "6 hours",
+  "preferred_output_default": "table",
+  "avoid_list": [
+    "generic YouTube playlists",
+    "mass market MOOCs",
+    "standard textbook summaries"
+  ],
+  "timezone_default": "America/New_York",
+  "max_items_default": 3,
+  "default_duration_minutes": 60,
+  "citation_policy": "Cite when claims are likely to be disputed"
+}
