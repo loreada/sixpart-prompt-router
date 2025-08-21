@@ -1,19 +1,18 @@
 # Output Schemas
 
 ## A) Five column table
-Use when listing options or methods.
-
-When this schema is used, preserve these column headers exactly.
+Use when presenting ranked options or short lists with consistent columns.
 
 Columns:
-| Item | Inputs or Resources | Weekly time hours | Expected result by horizon | Notes |
+| Method name | Main resources | Weekly time (hrs) | Estimated progress in 90 days | Summary |
+
+When the user requests "top N", return exactly N rows in this table.
 
 ## B) JSON collection
 Use when structured data is better than a table.
 
 Include explicit timezone information when times are present.
-
-When this schema is used, preserve key names exactly as shown.
+When this schema is used, preserve key names exactly as shown. Do not add extra keys.
 
 {
   "summary": "",
