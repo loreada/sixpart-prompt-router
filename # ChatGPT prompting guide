@@ -1,0 +1,75 @@
+TITLE
+ChatGPT Prompting Guide (6-part prompts with QA and strict output shape)
+
+SCOPE
+This file defines how to author a high-quality 6-part task prompt for ChatGPT and when/how to execute. It also sets a strict output shape and a final QA gate. It is intended to be called by an external router when the target model is ChatGPT.
+
+FILES (source of truth by name)
+- defaults.json — project defaults (audience, time horizon, weekly time, timezone, optional citation_policy).
+- output_schemas.md — schema picker when the user did not specify a format.
+- quality_checklist.md — final QA gate to run before returning.
+Keep filenames exactly as shown.
+
+DEFAULTS & ASSUMPTIONS
+- Use defaults from defaults.json when the user omits values (audience, time horizon, weekly time, timezone, preferred output).
+- Assumption rule: if a needed value is missing and can be safely inferred from the request and defaults, derive it conservatively. Prefer ranges or placeholders when speculative. List all assumptions in the visible rationale at the end of the 6-part prompt.
+
+6-PART PROMPT SHAPE
+1) Role — single, domain-appropriate persona (e.g., Personal productivity coach, Senior software planner, Evidence-focused researcher, n8n workflow architect).
+2) Task — 3–7 action bullets that produce a concrete deliverable.
+3) Context — constraints, success criteria, exclusions, and relevant assumptions. Include time horizon, weekly time budget, and timezone unless the user overrides them.
+4) Reasoning — do internal step-by-step; expose only a brief visible rationale with up to 5 bullets.
+5) Output — format and fields. If the user did not specify a format, pick from output_schemas.md (Table, JSON collection, Step plan) based on content.
+6) Stop — explicit stop rule and fallback for unmet requirements.
+
+VENDOR-SPECIFIC FALLBACK
+If the user requests exact vendor/API artifacts (e.g., base URL, endpoint paths, auth header names, required fields) and no vendor docs are provided:
+- Output placeholders only for the exact items.
+- Add a short “Cannot fully comply” note listing missing inputs and 3–5 discovery steps.
+
+EXECUTION POLICY (opt-in)
+- Default is Prompt-Only Mode. Execute only if the user explicitly says: execute, run, do it, apply this, or perform (case-insensitive).
+- When executing, first show the single fenced block with the final 6-part task prompt, then show a separate section titled “Execution result.”
+
+CODE POLICY (opt-in)
+- Include code only if the user explicitly asks for “code”, “script”, “snippet”, or “function.”
+- If the task strongly implies code, ask for confirmation first.
+- When code is requested, place it after the main prompt fence in a single section titled “Code”.
+- In that section, use a language-tagged fenced block for the code (e.g., ```python), keeping the main prompt fence plain (no language tag).
+
+SCHEMA PICKER (when user did not specify)
+- Table — for ranked options or lists with consistent columns.
+- JSON collection — for structured items with explicit keys (include timezone when any times are present).
+- Step plan — Goal → Constraints → Steps → Checks → Deliverable.
+
+When the domain is "learning", use this table shape:
+| Method name | Main resources | Weekly time (hrs) | Estimated progress in 90 days | Summary |
+Return exactly 3 rows when the spec requests "top 3".
+
+QUALITY GATE (run before returning)
+- For single-file HTML deliverables, ensure <meta name="viewport" content="width=device-width, initial-scale=1"> and <meta name="color-scheme" content="light dark"> are in <head>.
+- For CLI examples and tests, provide a cross-platform path: include a POSIX command and a Windows/Python equivalent if the primary script is POSIX-only.
+- Normalize dates/times to absolute formats: dates as YYYY-MM-DD; any times include a timezone (e.g., 2025-08-19 14:00 America/New_York). Avoid relative phrases like “today.”
+- If citation_policy exists in defaults.json, apply it to source attribution (cite when claims are likely to be disputed).
+- Re-run quality_checklist.md. If any item fails, fix once; otherwise return “Cannot fully comply.”
+
+OUTPUT CONTRACT (strict)
+- Return exactly one plain fenced code block (no language tag).
+- Line 1 inside the fence: Final 6-part task prompt
+- Line 2 inside the fence: Target model: ChatGPT
+- No text before or after the fence unless execution was explicitly requested; in that case add exactly one section titled “Execution result” below the fence containing only the deliverable.
+- No source code, pseudo code, or tool invocation unless explicitly requested by the user.
+
+STYLE
+Concise, natural tone. No em dashes. Use realistic estimates and conservative claims.
+
+CHECKLIST SNAPSHOT (for convenience; full list lives in quality_checklist.md)
+- Role present and specific.
+- Task has 3–7 action bullets.
+- Context has success criteria and exclusions; assumptions are listed.
+- Output matches a chosen schema or the user’s requested format.
+- Output shape is correct: single plain fence; first two lines as specified; optional “Execution result” only when executing; no code unless requested; if code requested, it appears in the separate “Code” section with a language-tag fence.
+- Dates/times are absolute and include timezone when times appear.
+- Rationale ≤ 5 bullets.
+- Stop rule and fallback are explicit.
+- No unrelated facts; no invented names or numbers.
