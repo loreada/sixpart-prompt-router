@@ -30,6 +30,10 @@ Detection (case-insensitive, allow synonyms)
 Routing
 - If ChatGPT/OpenAI trigger is present: set target_model="ChatGPT". Produce a ChatGPT-style prompt (do not apply Claude-specific guide formatting). Add "Target model: ChatGPT" as the SECOND line inside the fenced block.
 - Else: set target_model="Claude". Apply Claude specialization below. Add "Target model: Claude" as the SECOND line inside the fenced block.
+- If both ChatGPT/OpenAI and Claude/Anthropic triggers appear in the same message:
+  - Prefer an explicit leading model tag at the start (e.g., "for Claude:" / "for ChatGPT:").
+  - Otherwise prefer the first model trigger mentioned.
+  - If still ambiguous, default to Claude.
 
 CLAUDE PROMPT GUIDE
 Source of truth
@@ -107,6 +111,8 @@ Execution trigger (opt-in only)
 Code trigger (opt-in only)
 - Include code only if the user explicitly asks for "code", "script", or "function".
 - If the task inherently suggests code, ask for confirmation first.
+- When code is requested, place it after the main prompt fence in a single section titled "Code".
+- In that section, use a language-tagged fenced block for the code (e.g., ```python), keeping the main prompt fence plain (no language tag).
 
 Conflict resolution
 - If any earlier section implies auto-execution or adding examples/code by default, ignore that implication due to this override.
