@@ -1,8 +1,9 @@
 {
-  "version": "1.0.0",
   "audience_default": "busy professionals",
   "time_horizon_default": "90 days",
+  "time_horizon_default_days": 90,
   "weekly_time_default": "6 hours",
+  "weekly_time_default_hours": 6,
   "preferred_output_default": "table",
   "avoid_list": [
     "generic YouTube playlists",
@@ -11,6 +12,5 @@
   ],
   "timezone_default": "America/New_York",
   "max_items_default": 3,
-  "default_duration_minutes": 60,
-  "citation_policy": "Cite when claims are likely to be disputed"
+  "default_duration_minutes": 60
 }
