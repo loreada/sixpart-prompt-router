@@ -1,16 +1,27 @@
 {
+  "spec_version": "1.0.0",
+  "spec_updated": "2025-08-23",
+
   "audience_default": "busy professionals",
   "time_horizon_default": "90 days",
   "time_horizon_default_days": 90,
   "weekly_time_default": "6 hours",
   "weekly_time_default_hours": 6,
+
   "preferred_output_default": "table",
-  "avoid_list": [
-    "generic YouTube playlists",
-    "mass market MOOCs",
-    "standard textbook summaries"
-  ],
+  "output_schema_default": "table",
+
   "timezone_default": "America/New_York",
+  "date_format_default": "YYYY-MM-DD",
+  "datetime_format_default": "YYYY-MM-DD HH:MM",
+
   "max_items_default": 3,
-  "default_duration_minutes": 60
+  "max_rows_default": 10,
+  "default_duration_minutes": 60,
+  "default_char_budget": 8000,
+
+  "grade_scale_default": "1-1000",
+  "target_models_supported": ["ChatGPT", "Claude"],
+
+  "avoid_list": []
 }
